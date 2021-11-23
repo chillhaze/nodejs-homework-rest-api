@@ -1,5 +1,6 @@
 const fs = require('fs/promises')
 const path = require('path')
+const { v4: uuidv4 } = require('uuid')
 
 const contactsPath = path.resolve('./model/contacts.json')
 
@@ -10,7 +11,7 @@ const listContacts = async () => {
 
 const getContactById = async contactId => {
   const contacts = await listContacts()
-  const result = contacts.find(item => item.id === Number(contactId))
+  const result = contacts.find(item => item.id.toString() === contactId)
   return result
 }
 
@@ -20,7 +21,7 @@ const removeContact = async contactId => {
   let deletedContact
 
   contacts.map(item => {
-    if (item.id !== Number(contactId)) {
+    if (item.id.toString() !== contactId) {
       updatedContacts.push(item)
     } else {
       deletedContact = item
@@ -35,13 +36,9 @@ const removeContact = async contactId => {
 
 const addContact = async body => {
   const contacts = await listContacts()
-  let contactNewId = 0
-  for (let i = 0; i < contacts.length + 1; i++) {
-    contactNewId = i + 1
-  }
 
   const newContact = {
-    id: contactNewId,
+    id: uuidv4(),
     ...body,
   }
   contacts.push(newContact)

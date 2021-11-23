@@ -3,10 +3,10 @@ const router = express.Router()
 
 const Joi = require('joi')
 
-const contactsFn = require('../../model')
+const contactsOperations = require('../../model')
 
 router.get('/', async (req, res, next) => {
-  const result = await contactsFn.listContacts()
+  const result = await contactsOperations.listContacts()
   res.status(200).json({
     status: 'success',
     code: 200,
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:contactId', async (req, res, next) => {
   const { contactId } = req.params
 
-  const result = await contactsFn.getContactById(contactId)
+  const result = await contactsOperations.getContactById(contactId)
   if (!result) {
     res.status(404).json({
       status: 'error',
@@ -63,7 +63,7 @@ router.post('/', async (req, res, next) => {
         message: validationResult.error.details,
       })
     } else {
-      const result = await contactsFn.addContact(body)
+      const result = await contactsOperations.addContact(body)
 
       res.status(201).json({
         status: 'success',
@@ -84,7 +84,7 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:contactId', async (req, res, next) => {
   const { contactId } = req.params
-  const result = await contactsFn.removeContact(contactId)
+  const result = await contactsOperations.removeContact(contactId)
   console.log(result)
 
   if (!result) {
@@ -130,7 +130,7 @@ router.put('/:contactId', async (req, res, next) => {
         message: validationResult.error.details,
       })
     } else {
-      const result = await contactsFn.updateContact(contactId, body)
+      const result = await contactsOperations.updateContact(contactId, body)
       console.log(result)
       res.status(201).json({
         status: 'success',
