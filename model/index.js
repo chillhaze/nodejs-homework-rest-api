@@ -1,15 +1,71 @@
-// const fs = require('fs/promises')
-// const contacts = require('./contacts.json')
+const fs = require('fs/promises')
+const path = require('path')
 
-const listContacts = async () => {}
+const contactsPath = path.resolve('./model/contacts.json')
 
-const getContactById = async (contactId) => {}
+const listContacts = async () => {
+  const contacts = await fs.readFile(contactsPath)
+  return JSON.parse(contacts)
+}
 
-const removeContact = async (contactId) => {}
+const getContactById = async contactId => {
+  const contacts = await listContacts()
+  const result = contacts.find(item => item.id === Number(contactId))
+  return result
+}
 
-const addContact = async (body) => {}
+const removeContact = async contactId => {
+  const contacts = await listContacts()
+  const updatedContacts = []
+  let deletedContact
 
-const updateContact = async (contactId, body) => {}
+  contacts.map(item => {
+    if (item.id !== Number(contactId)) {
+      updatedContacts.push(item)
+    } else {
+      deletedContact = item
+    }
+    return deletedContact
+  })
+
+  fs.writeFile(contactsPath, JSON.stringify(updatedContacts))
+
+  return deletedContact
+}
+
+const addContact = async body => {
+  const contacts = await listContacts()
+  let contactNewId = 0
+  for (let i = 0; i < contacts.length + 1; i++) {
+    contactNewId = i + 1
+  }
+
+  const newContact = {
+    id: contactNewId,
+    ...body,
+  }
+  contacts.push(newContact)
+  await fs.writeFile(contactsPath, JSON.stringify(contacts))
+
+  return newContact
+}
+
+const updateContact = async (contactId, body) => {
+  const contacts = await listContacts()
+  const { name, email, phone } = body
+  let updatedContact = ''
+
+  contacts.forEach(el => {
+    if (el.id === Number(contactId)) {
+      el.name = name
+      el.email = email
+      el.phone = phone
+      updatedContact = el
+    }
+  })
+  await fs.writeFile(contactsPath, JSON.stringify(contacts))
+  return updatedContact
+}
 
 module.exports = {
   listContacts,
@@ -18,3 +74,21 @@ module.exports = {
   addContact,
   updateContact,
 }
+
+// const removeContact = async contactId => {
+//   const contacts = await listContacts()
+//   const updatedContacts = []
+//   let deletedContact = {}
+
+//   contacts.map(item => {
+//     if (item.id !== Number(contactId)) {
+//       updatedContacts.push(item)
+//     } else if (item.id === Number(contactId)) {
+//       return (deletedContact = item)
+//     }
+
+//     return fs.writeFile(contactsPath, JSON.stringify(updatedContacts))
+//   })
+
+//   return deletedContact
+// }
