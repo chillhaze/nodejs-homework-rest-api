@@ -52,12 +52,12 @@ const updateContact = async (contactId, body) => {
   const { name, email, phone } = body
   let updatedContact = ''
 
-  contacts.forEach(el => {
-    if (el.id === Number(contactId)) {
-      el.name = name
-      el.email = email
-      el.phone = phone
-      updatedContact = el
+  contacts.forEach(item => {
+    if (item.id.toString() === contactId) {
+      item.name = name
+      item.email = email
+      item.phone = phone
+      updatedContact = item
     }
   })
   await fs.writeFile(contactsPath, JSON.stringify(contacts))
