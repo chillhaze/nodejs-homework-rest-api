@@ -1,4 +1,4 @@
-const contactsOperations = require('../../model/index')
+const { contactsOperations } = require('../../models')
 
 const removeContact = async (req, res) => {
   const { contactId } = req.params

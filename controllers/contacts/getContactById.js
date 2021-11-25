@@ -1,4 +1,4 @@
-const contactsOperations = require('../../model/index')
+const { contactsOperations } = require('../../models')
 // вариант с npm http-error #1
 // const createError = require('http-errors')
 // вариант с npm http-error #2
