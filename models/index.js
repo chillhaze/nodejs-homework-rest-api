@@ -1,5 +1,7 @@
-const contactsOperations = require('./contacts')
+const { Contact, joiSchema, joiUpdateStatusSchema } = require('./contact')
 
 module.exports = {
-  contactsOperations,
+  Contact,
+  joiSchema,
+  joiUpdateStatusSchema,
 }
