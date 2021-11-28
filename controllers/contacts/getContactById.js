@@ -1,4 +1,4 @@
-const { contactsOperations } = require('../../models')
+const { Contact } = require('../../models')
 // вариант с npm http-error #1
 // const createError = require('http-errors')
 // вариант с npm http-error #2
@@ -7,7 +7,8 @@ const { contactsOperations } = require('../../models')
 const getContactById = async (req, res) => {
   const { contactId } = req.params
 
-  const result = await contactsOperations.getContactById(contactId)
+  const result = await Contact.findById({ _id: contactId })
+  console.log(result)
   if (!result) {
     const error = new Error(`Contact with id: ${contactId} not found`)
     error.status = 404
