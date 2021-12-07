@@ -6,9 +6,13 @@ const { Contact } = require('../../models')
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params
+  const { _id } = req.user
 
-  const result = await Contact.findById({ _id: contactId })
-  console.log(result)
+  const result = await Contact.findById({
+    _id: contactId,
+    owner: _id,
+  }).populate('owner', ' email')
+
   if (!result) {
     const error = new Error(`Contact with id: ${contactId} not found`)
     error.status = 404
