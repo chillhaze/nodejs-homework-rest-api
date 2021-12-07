@@ -22,6 +22,7 @@ class UserControllers {
       { _id: _id },
       { subscription: newSubscription },
     )
+    console.log(user)
     const subscriptionRules = ['starter', 'pro', 'business']
     if (!subscriptionRules.includes(newSubscription)) {
       res.status(200).json({
