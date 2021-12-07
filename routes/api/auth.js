@@ -11,7 +11,7 @@ router.post(
   // Вместо '/register' можно использовать в эндпоинте "/signup"
   '/register',
   validation(joiRegisterSchema),
-  ctrlWrapper(ctrl.register),
+  ctrlWrapper(ctrl.AuthControllers.register),
 )
 
 // Sign in user
@@ -19,11 +19,11 @@ router.post(
   '/login',
   // Вместо '/login' можно использовать в эндпоинте "/signin"
   validation(joiLoginSchema),
-  ctrlWrapper(ctrl.login),
+  ctrlWrapper(ctrl.AuthControllers.login),
 )
 
 // Log out user
 // тк нет тела запроса, лучше писать get, а не post
-router.post('/logout', authUser, ctrlWrapper(ctrl.logout))
+router.post('/logout', authUser, ctrlWrapper(ctrl.AuthControllers.logout))
 // Вместо '/logout' можно использовать в эндпоинте "/signout"
 module.exports = router

@@ -1,9 +1,5 @@
-const register = require('./register')
-const login = require('./login')
-const logout = require('./logout')
+const AuthControllers = require('./AuthControllers')
 
 module.exports = {
-  register,
-  login,
-  logout,
+  AuthControllers,
 }
