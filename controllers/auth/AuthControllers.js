@@ -4,6 +4,8 @@ const { User } = require('../../models')
 const { SECRET_KEY } = process.env
 const { Conflict } = require('http-errors')
 
+const gravatar = require('gravatar')
+
 class AuthControllers {
   async login(req, res) {
     const { email, password } = req.body
@@ -46,7 +48,8 @@ class AuthControllers {
       throw new Conflict(`User with email ${email} already exist`)
     }
 
-    const newUser = new User({ email, password })
+    const avatarURL = gravatar.url(email)
+    const newUser = new User({ email, password, avatarURL })
     newUser.setPassword(password)
     newUser.save()
 
@@ -57,6 +60,7 @@ class AuthControllers {
         message: `User ${email} created.`,
         user: {
           email,
+          avatarURL,
         },
       },
     })

@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { authUser, ctrlWrapper } = require('../../middlewares')
+const { authUser, upload, ctrlWrapper } = require('../../middlewares')
 const { userControllers: ctrl } = require('../../controllers')
 
 const router = express.Router()
@@ -17,6 +17,14 @@ router.patch(
   '/current/subscription',
   authUser,
   ctrlWrapper(ctrl.UserControllers.updateSubscription),
+)
+
+// update avatar
+router.patch(
+  '/avatars',
+  authUser,
+  upload.single('avatar'),
+  ctrlWrapper(ctrl.UserControllers.updateAvatar),
 )
 
 module.exports = router

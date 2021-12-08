@@ -1,8 +1,10 @@
 const { User } = require('../../models')
+const path = require('path')
+const fs = require('fs/promises')
 
 class UserControllers {
   async getCurrentUser(req, res) {
-    const { email, subscription } = req.user
+    const { email, subscription, avatarURL } = req.user
     res.status(200).json({
       status: 'success',
       code: 201,
@@ -10,6 +12,7 @@ class UserControllers {
         user: {
           email,
           subscription,
+          avatarURL,
         },
       },
     })
@@ -45,6 +48,29 @@ class UserControllers {
         messsage: `Congratulations! Subscription changed from ${subscription} to ${newSubscription}`,
       },
     })
+  }
+
+  async updateAvatar(req, res) {
+    const { path: tempUpload, originalname } = req.file
+    const { _id: id } = req.user
+    const imageName = `${id}_${originalname}`
+
+    const avatarUrl = path.join(__dirname, '../../', 'public', 'avatars')
+
+    try {
+      const resultUpload = path.join(avatarUrl, imageName)
+
+      await fs.rename(tempUpload, resultUpload)
+
+      const avatarURL = path.join('public', 'avatars', imageName)
+
+      await User.findByIdAndUpdate(req.user._id, { avatarUrl })
+
+      res.json({ avatarURL })
+    } catch (error) {
+      await fs.unlink(tempUpload)
+      throw error
+    }
   }
 }
 module.exports = new UserControllers()
