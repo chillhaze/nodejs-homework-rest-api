@@ -1,7 +1,5 @@
-const getCurrentUser = require('./getCurrentUser')
-const updateSubscription = require('./updateSubscription')
+const UserControllers = require('./UserControllers')
 
 module.exports = {
-  getCurrentUser,
-  updateSubscription,
+  UserControllers,
 }

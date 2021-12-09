@@ -7,26 +7,39 @@ const { contactsControllers: ctrl } = require('../../controllers')
 
 const validateMiddleware = validation(joiSchema)
 
-router.get('/', authUser, ctrlWrapper(ctrl.getAllContacts))
+router.get('/', authUser, ctrlWrapper(ctrl.ContactsControllers.getAllContacts))
 
-router.get('/:contactId', authUser, ctrlWrapper(ctrl.getContactById))
+router.get(
+  '/:contactId',
+  authUser,
+  ctrlWrapper(ctrl.ContactsControllers.getContactById),
+)
 
-router.post('/', authUser, validateMiddleware, ctrlWrapper(ctrl.addContact))
+router.post(
+  '/',
+  authUser,
+  validateMiddleware,
+  ctrlWrapper(ctrl.ContactsControllers.addContact),
+)
 
 router.put(
   '/:contactId',
   authUser,
   validateMiddleware,
-  ctrlWrapper(ctrl.updateContact),
+  ctrlWrapper(ctrl.ContactsControllers.updateContact),
 )
 
 router.patch(
   '/:contactId/favorite',
   authUser,
   validation(joiUpdateStatusSchema),
-  ctrlWrapper(ctrl.updateStatusContact),
+  ctrlWrapper(ctrl.ContactsControllers.updateStatusContact),
 )
 
-router.delete('/:contactId', authUser, ctrlWrapper(ctrl.removeContact))
+router.delete(
+  '/:contactId',
+  authUser,
+  ctrlWrapper(ctrl.ContactsControllers.removeContact),
+)
 
 module.exports = router

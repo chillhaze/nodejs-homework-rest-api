@@ -1,8 +1,8 @@
 const contactsControllers = require('./contacts')
 const authControllers = require('./auth')
-const usersControllers = require('./users')
+const userControllers = require('./users')
 module.exports = {
   contactsControllers,
   authControllers,
-  usersControllers,
+  userControllers,
 }
