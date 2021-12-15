@@ -26,4 +26,14 @@ router.post(
 // тк нет тела запроса, лучше писать get, а не post
 router.post('/logout', authUser, ctrlWrapper(ctrl.AuthControllers.logout))
 // Вместо '/logout' можно использовать в эндпоинте "/signout"
+
+// update verification
+router.get(
+  '/verify/:verificationToken',
+  ctrlWrapper(ctrl.AuthControllers.verifyEmail),
+)
+
+// resend verification email
+router.post('/verify', ctrlWrapper(ctrl.AuthControllers.resendEmail))
+
 module.exports = router
